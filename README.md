@@ -70,3 +70,25 @@ IdList.Result =>
 }
 ```
 
+**List:**
+```csharp
+public class Request
+{
+    [FromQuery(Name = "ids"), JsonIgnore]
+    public string Ids { get; set; } = "Item1,Item2,Item3,item3,25";
+
+    [BindNever, JsonIgnore]
+    public ISafeResult<List<int>> IdList => _idList ??= SafeResult<int>.List(Ids, stopOnFailure: false);
+
+    private ISafeResult<List<int>> _idList;
+}
+```
+
+IdList.Result =>
+
+```bash
+[25]
+```
+
+
+
