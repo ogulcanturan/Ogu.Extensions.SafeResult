@@ -43,3 +43,30 @@ IdList.Result =>
 ```bash
 [1,2,3,4]
 ```
+
+**Dictionary:**
+```csharp
+public class Request
+{
+    [FromQuery(Name = "ids"), JsonIgnore]
+    public string Ids { get; set; } = "1,2,3  , 4, a, 6";
+
+    [BindNever, JsonIgnore]
+    public ISafeResult<IDictionary<int, int>> IdList => _idList ??= SafeResult<int>.Dictionary(Ids, stopOnFailure: false);
+
+    private ISafeResult<IDictionary<int, int>> _idList;
+}
+```
+
+IdList.Result =>
+
+```bash
+{
+  "1":0,
+  "2":1,
+  "3":2,
+  "4":3,
+  "6":4
+}
+```
+
