@@ -41,7 +41,7 @@ namespace Ogu.Extensions.SafeResult
 
             if (!string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators ?? CommaSeparator, StringSplitOptions.RemoveEmptyEntries)
+                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries)
                     .Select(s => s.Trim()).Where(s => s != string.Empty);
 
                 var type = typeof(TType);
@@ -78,7 +78,7 @@ namespace Ogu.Extensions.SafeResult
 
             if (!string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators ?? CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
+                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
                 var type = typeof(TType);
 
                 foreach (var item in items)
@@ -138,7 +138,7 @@ namespace Ogu.Extensions.SafeResult
 
             if (!string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators ?? CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
+                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
                 var type = typeof(TType);
 
                 foreach (var item in items)
@@ -172,7 +172,7 @@ namespace Ogu.Extensions.SafeResult
 
             if (!string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators ?? CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()).Where(item => item != string.Empty);
+                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()).Where(item => item != string.Empty);
                 var index = 0;
                 var type = typeof(TType);
 
