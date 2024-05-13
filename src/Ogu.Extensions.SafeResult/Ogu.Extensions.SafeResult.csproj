@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+	<AssemblyName>Ogu.Extensions.SafeResult</AssemblyName>
+	<PackageId>Ogu.Extensions.SafeResult</PackageId>
+	<Product>Ogu.Extensions.SafeResult</Product>
+	<Version>1.0.0</Version>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Authors>Oğulcan TURAN</Authors>
+	<Copyright>Copyright (c) Oğulcan TURAN 2024</Copyright>
+	<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Extensions.SafeResult</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/ogulcanturan/Ogu.Extensions.SafeResult</RepositoryUrl>
+	<PackageTags>aspnetcore;net;mvc;model;extensions;collections</PackageTags>
+	<Title>Safely creates collections from separated strings</Title>
+	<RepositoryType>git</RepositoryType>
+	<Description>This library that safely creates collections from separated strings</Description>
+	<PackageIcon>ogu-logo.png</PackageIcon>
+	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<None Include="..\..\logo\ogu-logo.png" Pack="true" PackagePath="\" Visible="false" />
+	<None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>
