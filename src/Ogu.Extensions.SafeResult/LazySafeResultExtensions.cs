@@ -26,12 +26,12 @@ namespace Ogu.Extensions.SafeResult
 
         public static ISafeResult<IDictionary<TType, int>> ToLazySafeDictionary<TType>(this string elements, IEqualityComparer<TType> comparer, bool stopOnFailure = false, params char[] separators)
         {
-            return LazySafeResult<IDictionary<TType, int>, TType>.Dictionary(elements, comparer, stopOnFailure, separators);
+            return LazySafeResult<IDictionary<TType, int>, TType>.OrderedDictionary(elements, comparer, stopOnFailure, separators);
         }
 
         public static ISafeResult<IDictionary<TType, int>> ToLazySafeDictionary<TType>(this string elements, bool stopOnFailure = false, params char[] separators)
         {
-            return LazySafeResult<IDictionary<TType, int>, TType>.Dictionary(elements, stopOnFailure, separators);
+            return LazySafeResult<IDictionary<TType, int>, TType>.OrderedDictionary(elements, stopOnFailure, separators);
         }
     }
 }

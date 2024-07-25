@@ -64,12 +64,12 @@ namespace Ogu.Extensions.SafeResult
             return new LazySafeResult<HashSet<TType>, TType>(elements, SafeResultType.HashSet, stopOnFailure, separators);
         }
 
-        public static ISafeResult<IDictionary<TType, int>> Dictionary(string elements, IEqualityComparer<TType> comparer, bool stopOnFailure = false, params char[] separators)
+        public static ISafeResult<IDictionary<TType, int>> OrderedDictionary(string elements, IEqualityComparer<TType> comparer, bool stopOnFailure = false, params char[] separators)
         {
             return new LazySafeResult<IDictionary<TType, int>, TType>(elements, SafeResultType.OrderedDictionary, comparer, stopOnFailure, separators);
         }
 
-        public static ISafeResult<IDictionary<TType, int>> Dictionary(string elements, bool stopOnFailure = false, params char[] separators)
+        public static ISafeResult<IDictionary<TType, int>> OrderedDictionary(string elements, bool stopOnFailure = false, params char[] separators)
         {
             return new LazySafeResult<IDictionary<TType, int>, TType>(elements, SafeResultType.OrderedDictionary, stopOnFailure, separators);
         }
