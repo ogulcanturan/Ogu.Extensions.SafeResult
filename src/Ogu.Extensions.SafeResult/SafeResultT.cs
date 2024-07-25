@@ -7,9 +7,7 @@ namespace Ogu.Extensions.SafeResult
 {
     public class SafeResult<TType> : ISafeResult<TType>
     {
-        private static readonly char[] CommaSeparator = { ',' };
-
-        internal SafeResult(TType result, bool isThereAnyFailure, bool stopOnFailure, int successCount, int failureCount)
+        private SafeResult(TType result, bool isThereAnyFailure, bool stopOnFailure, int successCount, int failureCount)
         {
             Result = result;
             IsThereAnyFailure = isThereAnyFailure;
@@ -39,30 +37,32 @@ namespace Ogu.Extensions.SafeResult
             var isThereAnyFailure = false;
             int successCount = 0, failureCount = 0;
 
-            if (!string.IsNullOrWhiteSpace(elements))
+            if (string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(s => s.Trim()).Where(s => s != string.Empty);
+                return new SafeResult<List<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+            }
 
-                var type = typeof(TType);
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim()).Where(s => s != string.Empty);
 
-                foreach (var item in items)
+            var type = typeof(TType);
+
+            foreach (var item in items)
+            {
+                try
                 {
-                    try
-                    {
-                        var parsedItem = (TType)Convert.ChangeType(item, type);
-                        result.Add(parsedItem);
-                        successCount++;
-                    }
-                    catch
-                    {
-                        isThereAnyFailure = true;
-                        failureCount++;
+                    var parsedItem = (TType)Convert.ChangeType(item, type);
+                    result.Add(parsedItem);
+                    successCount++;
+                }
+                catch
+                {
+                    isThereAnyFailure = true;
+                    failureCount++;
 
-                        if (stopOnFailure)
-                        {
-                            break;
-                        }
+                    if (stopOnFailure)
+                    {
+                        break;
                     }
                 }
             }
@@ -76,33 +76,35 @@ namespace Ogu.Extensions.SafeResult
             var isThereAnyFailure = false;
             int successCount = 0, failureCount = 0;
 
-            if (!string.IsNullOrWhiteSpace(elements))
+            if (string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
-                var type = typeof(TType);
+                return new SafeResult<HashSet<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+            }
 
-                foreach (var item in items)
-                {
-                    if (
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
+            var type = typeof(TType);
+
+            foreach (var item in items)
+            {
+                if (
 #if NETSTANDARD2_0
-                        EnumTryParse(type, item, ignoreCase, out var enumResult)
+                    EnumTryParse(type, item, ignoreCase, out var enumResult)
 #else
-                        Enum.TryParse(type, item, ignoreCase, out var enumResult)
+                    Enum.TryParse(type, item, ignoreCase, out var enumResult)
 #endif
-                    )
-                    {
-                        result.Add((TType)enumResult);
-                        successCount++;
-                    }
-                    else
-                    {
-                        isThereAnyFailure = true;
-                        failureCount++;
+                )
+                {
+                    result.Add((TType)enumResult);
+                    successCount++;
+                }
+                else
+                {
+                    isThereAnyFailure = true;
+                    failureCount++;
 
-                        if (stopOnFailure)
-                        {
-                            break;
-                        }
+                    if (stopOnFailure)
+                    {
+                        break;
                     }
                 }
             }
@@ -120,12 +122,12 @@ namespace Ogu.Extensions.SafeResult
             return InternalHashSet(elements, EqualityComparer<TType>.Default, stopOnFailure, separators);
         }
 
-        public static ISafeResult<IDictionary<TType, int>> Dictionary(string elements, IEqualityComparer<TType> comparer, bool stopOnFailure = false, params char[] separators)
+        public static ISafeResult<IDictionary<TType, int>> OrderedDictionary(string elements, IEqualityComparer<TType> comparer, bool stopOnFailure = false, params char[] separators)
         {
             return InternalDictionary(new Dictionary<TType, int>(comparer), elements, stopOnFailure, separators);
         }
 
-        public static ISafeResult<IDictionary<TType, int>> Dictionary(string elements, bool stopOnFailure = false, params char[] separators)
+        public static ISafeResult<IDictionary<TType, int>> OrderedDictionary(string elements, bool stopOnFailure = false, params char[] separators)
         {
             return InternalDictionary(new Dictionary<TType, int>(), elements, stopOnFailure, separators);
         }
@@ -136,28 +138,30 @@ namespace Ogu.Extensions.SafeResult
             var isThereAnyFailure = false;
             int successCount = 0, failureCount = 0;
 
-            if (!string.IsNullOrWhiteSpace(elements))
+            if (string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
-                var type = typeof(TType);
+                return new SafeResult<HashSet<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+            }
+               
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
+            var type = typeof(TType);
 
-                foreach (var item in items)
+            foreach (var item in items)
+            {
+                try
                 {
-                    try
-                    {
-                        var parsedItem = (TType)Convert.ChangeType(item, type);
-                        result.Add(parsedItem);
-                        successCount++;
-                    }
-                    catch
-                    {
-                        isThereAnyFailure = true;
-                        failureCount++;
+                    var parsedItem = (TType)Convert.ChangeType(item, type);
+                    result.Add(parsedItem);
+                    successCount++;
+                }
+                catch
+                {
+                    isThereAnyFailure = true;
+                    failureCount++;
 
-                        if (stopOnFailure)
-                        {
-                            break;
-                        }
+                    if (stopOnFailure)
+                    {
+                        break;
                     }
                 }
             }
@@ -170,33 +174,37 @@ namespace Ogu.Extensions.SafeResult
             var isThereAnyFailure = false;
             int successCount = 0, failureCount = 0;
 
-            if (!string.IsNullOrWhiteSpace(elements))
+            if (string.IsNullOrWhiteSpace(elements))
             {
-                var items = elements.Split(separators?.Length > 0 ? separators : CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()).Where(item => item != string.Empty);
-                var index = 0;
-                var type = typeof(TType);
+                return new SafeResult<IDictionary<TType, int>>(dictionary, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+            }
+                
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()).Where(item => item != string.Empty);
+            var index = 0;
+            var type = typeof(TType);
 
-                foreach (var item in items)
+            foreach (var item in items)
+            {
+                try
                 {
-                    try
-                    {
-                        var convertedItem = (TType)Convert.ChangeType(item, type);
+                    var convertedItem = (TType)Convert.ChangeType(item, type);
 
-                        if (!dictionary.ContainsKey(convertedItem))
-                        {
-                            dictionary.Add(convertedItem, index++);
-                            successCount++;
-                        }
+                    if (dictionary.ContainsKey(convertedItem))
+                    {
+                        continue;
                     }
-                    catch
-                    {
-                        isThereAnyFailure = true;
-                        failureCount++;
 
-                        if (stopOnFailure)
-                        {
-                            break;
-                        }
+                    dictionary.Add(convertedItem, index++);
+                    successCount++;
+                }
+                catch
+                {
+                    isThereAnyFailure = true;
+                    failureCount++;
+
+                    if (stopOnFailure)
+                    {
+                        break;
                     }
                 }
             }
