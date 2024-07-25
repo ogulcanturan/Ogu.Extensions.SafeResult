@@ -44,7 +44,7 @@ IdList.Result =>
 [1,2,3,4]
 ```
 
-**Dictionary:**
+**OrderedDictionary:**
 ```csharp
 public class Request
 {
@@ -52,7 +52,7 @@ public class Request
     public string Ids { get; set; } = "1,2,3  , 4, a, 6";
 
     [BindNever, JsonIgnore]
-    public ISafeResult<IDictionary<int, int>> IdList => _idList ??= SafeResult<int>.Dictionary(Ids, stopOnFailure: false);
+    public ISafeResult<IDictionary<int, int>> IdList => _idList ??= SafeResult<int>.OrderedDictionary(Ids, stopOnFailure: false);
 
     private ISafeResult<IDictionary<int, int>> _idList;
 }
