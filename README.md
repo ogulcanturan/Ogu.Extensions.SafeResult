@@ -44,6 +44,33 @@ IdList.Result =>
 [1,2,3,4]
 ```
 
+**EnumHashSet:**
+```csharp
+public enum Color
+{
+    Red,
+    Green,
+    Blue,
+}
+
+public class Request
+{
+    [FromQuery(Name = "ids"), JsonIgnore]
+    public string Ids { get; set; } = "0, a, 16, 1, 2";
+
+    [BindNever, JsonIgnore]
+    public ISafeResult<HashSet<Color>> IdList => _idList ??= SafeResult<Color>.EnumHashSet(Ids, stopOnFailure: true);
+
+    private ISafeResult<HashSet<Color>> _idList;
+}
+```
+
+IdList.Result =>
+
+```bash
+[Red]
+```
+
 **OrderedDictionary:**
 ```csharp
 public class Request
