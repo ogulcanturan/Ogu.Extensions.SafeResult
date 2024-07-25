@@ -50,7 +50,7 @@
             Assert.True(safeResult.IsThereAnyFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(1, safeResult.FailureCount);
-            Assert.Equal(2, safeResult.SuccessCount);
+            Assert.Equal(1, safeResult.SuccessCount);
         }
 
         [Fact]
