@@ -34,18 +34,18 @@ namespace Ogu.Extensions.SafeResult
         public static ISafeResult<List<TType>> List(string elements, bool stopOnFailure = false, params char[] separators)
         {
             var result = new List<TType>();
-            var isThereAnyFailure = false;
-            int successCount = 0, failureCount = 0;
 
             if (string.IsNullOrWhiteSpace(elements))
             {
-                return new SafeResult<List<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+                return new SafeResult<List<TType>>(result, isThereAnyFailure: false, stopOnFailure, successCount: 0, failureCount: 0);
             }
+
+            var isThereAnyFailure = false;
+            int successCount = 0, failureCount = 0;
+            var type = typeof(TType);
 
             var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).Where(s => s != string.Empty);
-
-            var type = typeof(TType);
 
             foreach (var item in items)
             {
@@ -73,16 +73,17 @@ namespace Ogu.Extensions.SafeResult
         public static ISafeResult<HashSet<TType>> EnumHashSet(string elements, bool stopOnFailure = false, bool ignoreCase = true, params char[] separators)
         {
             var result = new HashSet<TType>();
-            var isThereAnyFailure = false;
-            int successCount = 0, failureCount = 0;
 
             if (string.IsNullOrWhiteSpace(elements))
             {
-                return new SafeResult<HashSet<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+                return new SafeResult<HashSet<TType>>(result, isThereAnyFailure: false, stopOnFailure, successCount: 0, failureCount: 0);
             }
 
-            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
+            var isThereAnyFailure = false;
+            int successCount = 0, failureCount = 0;
             var type = typeof(TType);
+
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
 
             foreach (var item in items)
             {
@@ -92,6 +93,7 @@ namespace Ogu.Extensions.SafeResult
 #else
                     Enum.TryParse(type, item, ignoreCase, out var enumResult)
 #endif
+                    && Enum.IsDefined(type, enumResult)
                 )
                 {
                     result.Add((TType)enumResult);
@@ -124,27 +126,28 @@ namespace Ogu.Extensions.SafeResult
 
         public static ISafeResult<IDictionary<TType, int>> OrderedDictionary(string elements, IEqualityComparer<TType> comparer, bool stopOnFailure = false, params char[] separators)
         {
-            return InternalDictionary(new Dictionary<TType, int>(comparer), elements, stopOnFailure, separators);
+            return InternalOrderedDictionary(new Dictionary<TType, int>(comparer), elements, stopOnFailure, separators);
         }
 
         public static ISafeResult<IDictionary<TType, int>> OrderedDictionary(string elements, bool stopOnFailure = false, params char[] separators)
         {
-            return InternalDictionary(new Dictionary<TType, int>(), elements, stopOnFailure, separators);
+            return InternalOrderedDictionary(new Dictionary<TType, int>(), elements, stopOnFailure, separators);
         }
 
         private static ISafeResult<HashSet<TType>> InternalHashSet(string elements, IEqualityComparer<TType> comparer, bool stopOnFailure, params char[] separators)
         {
             var result = new HashSet<TType>(comparer);
-            var isThereAnyFailure = false;
-            int successCount = 0, failureCount = 0;
-
+            
             if (string.IsNullOrWhiteSpace(elements))
             {
-                return new SafeResult<HashSet<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+                return new SafeResult<HashSet<TType>>(result, isThereAnyFailure: false, stopOnFailure, successCount: 0, failureCount: 0);
             }
-               
-            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
+
+            var isThereAnyFailure = false;
+            int successCount = 0, failureCount = 0;
             var type = typeof(TType);
+
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s != string.Empty);
 
             foreach (var item in items)
             {
@@ -169,19 +172,19 @@ namespace Ogu.Extensions.SafeResult
             return new SafeResult<HashSet<TType>>(result, isThereAnyFailure, stopOnFailure, successCount, failureCount);
         }
 
-        private static ISafeResult<IDictionary<TType, int>> InternalDictionary(IDictionary<TType, int> dictionary, string elements, bool stopOnFailure, params char[] separators)
+        private static ISafeResult<IDictionary<TType, int>> InternalOrderedDictionary(IDictionary<TType, int> dictionary, string elements, bool stopOnFailure, params char[] separators)
         {
-            var isThereAnyFailure = false;
-            int successCount = 0, failureCount = 0;
-
             if (string.IsNullOrWhiteSpace(elements))
             {
-                return new SafeResult<IDictionary<TType, int>>(dictionary, isThereAnyFailure, stopOnFailure, successCount, failureCount);
+                return new SafeResult<IDictionary<TType, int>>(dictionary, isThereAnyFailure: false, stopOnFailure, successCount: 0, failureCount: 0);
             }
-                
-            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()).Where(item => item != string.Empty);
-            var index = 0;
+
+            var isThereAnyFailure = false;
+            int successCount = 0, failureCount = 0;
             var type = typeof(TType);
+            var index = 0;
+
+            var items = elements.Split(separators?.Length > 0 ? separators : Constants.CommaSeparator, StringSplitOptions.RemoveEmptyEntries).Select(item => item.Trim()).Where(item => item != string.Empty);
 
             foreach (var item in items)
             {
@@ -189,12 +192,8 @@ namespace Ogu.Extensions.SafeResult
                 {
                     var convertedItem = (TType)Convert.ChangeType(item, type);
 
-                    if (dictionary.ContainsKey(convertedItem))
-                    {
-                        continue;
-                    }
-
-                    dictionary.Add(convertedItem, index++);
+                    dictionary.Add(convertedItem, index);
+                    index++;
                     successCount++;
                 }
                 catch
@@ -212,6 +211,7 @@ namespace Ogu.Extensions.SafeResult
             return new SafeResult<IDictionary<TType, int>>(dictionary, isThereAnyFailure, stopOnFailure, successCount, failureCount);
         }
 
+#if NETSTANDARD2_0
         private static bool EnumTryParse(Type type, string value, bool ignoreCase, out object result)
         {
             try
@@ -225,5 +225,6 @@ namespace Ogu.Extensions.SafeResult
                 return false;
             }
         }
+#endif
     }
 }

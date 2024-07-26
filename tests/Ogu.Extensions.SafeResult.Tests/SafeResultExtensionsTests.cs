@@ -108,7 +108,7 @@
         public void ToSafeEnumHashSet_GivenInvalidElements_ReturnsExpectedHashSet()
         {
             // Arrange
-            var elements = "Monday,Twuesday,Wednesday";
+            var elements = "Monday,Twuesday,Wednesday, 55";
             var expected = new HashSet<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday };
 
             // Act
@@ -117,7 +117,7 @@
             // Assert
             Assert.True(safeResult.IsThereAnyFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
-            Assert.Equal(1, safeResult.FailureCount);
+            Assert.Equal(2, safeResult.FailureCount);
             Assert.Equal(2, safeResult.SuccessCount);
         }
 
@@ -249,6 +249,28 @@
             Assert.False(safeResult.IsThereAnyFailure);
             Assert.Equal(expected, safeResult.Result);
             Assert.Equal(0, safeResult.FailureCount);
+            Assert.Equal(3, safeResult.SuccessCount);
+        }
+
+        [Fact]
+        public void ToSafeOrderedDictionary_GivenInvalidElements_ReturnsExpectedDictionary()
+        {
+            // Arrange
+            var elements = "1 a, 1, 2, 1 ,3";
+            var expected = new Dictionary<int, int>
+            {
+                { 1, 0 },
+                { 2, 1 },
+                { 3, 2 }
+            };
+
+            // Act
+            var safeResult = elements.ToSafeOrderedDictionary<int>(false, ',');
+
+            // Assert
+            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.Equal(expected, safeResult.Result);
+            Assert.Equal(2, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
         }
 
