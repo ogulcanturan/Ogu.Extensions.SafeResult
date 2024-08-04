@@ -1,4 +1,4 @@
-# Ogu.Extensions.SafeResult
+# <img src="logo/ogu-logo.png" alt="Header" width="24"/> Ogu.Extensions.SafeResult
 
 [![.NET](https://github.com/ogulcanturan/Ogu.Extensions.SafeResult/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/ogulcanturan/Ogu.Extensions.SafeResult/actions/workflows/dotnet.yml)
 [![NuGet](https://img.shields.io/nuget/v/Ogu.Extensions.SafeResult.svg?color=1ecf18)](https://nuget.org/packages/Ogu.Extensions.SafeResult)
