@@ -13,7 +13,7 @@
             var safeResult = elements.ToSafeList<int>(false, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -30,7 +30,7 @@
             var safeResult = elements.ToSafeList<int>(false, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(1, safeResult.FailureCount);
             Assert.Equal(2, safeResult.SuccessCount);
@@ -47,7 +47,7 @@
             var safeResult = elements.ToSafeList<int>(true, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(1, safeResult.FailureCount);
             Assert.Equal(1, safeResult.SuccessCount);
@@ -64,7 +64,7 @@
             var safeResult = elements.ToSafeEnumHashSet<DayOfWeek>(false, true, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -81,7 +81,7 @@
             var safeResult = elements.ToSafeEnumHashSet<DayOfWeek>(false, true, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -98,7 +98,7 @@
             var safeResult = elements.ToSafeEnumHashSet<DayOfWeek>(false, false, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(2, safeResult.FailureCount);
             Assert.Equal(1, safeResult.SuccessCount);
@@ -115,7 +115,7 @@
             var safeResult = elements.ToSafeEnumHashSet<DayOfWeek>(false, true, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(2, safeResult.FailureCount);
             Assert.Equal(2, safeResult.SuccessCount);
@@ -132,7 +132,7 @@
             var safeResult = elements.ToSafeEnumHashSet<DayOfWeek>(true, true, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(1, safeResult.FailureCount);
             Assert.Equal(1, safeResult.SuccessCount);
@@ -150,7 +150,7 @@
             var safeResult = elements.ToSafeHashSet(comparer, false, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -167,7 +167,7 @@
             var safeResult = elements.ToSafeHashSet<int>(false, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -184,7 +184,7 @@
             var safeResult = elements.ToSafeHashSet<int>(false, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(2, safeResult.FailureCount);
             Assert.Equal(1, safeResult.SuccessCount);
@@ -201,7 +201,7 @@
             var safeResult = elements.ToSafeHashSet<int>(true, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(1, safeResult.FailureCount);
             Assert.Equal(0, safeResult.SuccessCount);
@@ -224,7 +224,7 @@
             var safeResult = elements.ToSafeOrderedDictionary(comparer, false, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equivalent(expected, safeResult.Result, strict: true);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -246,7 +246,7 @@
             var safeResult = elements.ToSafeOrderedDictionary<int>(false, ',');
 
             // Assert
-            Assert.False(safeResult.IsThereAnyFailure);
+            Assert.False(safeResult.HasFailure);
             Assert.Equal(expected, safeResult.Result);
             Assert.Equal(0, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -268,7 +268,7 @@
             var safeResult = elements.ToSafeOrderedDictionary<int>(false, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equal(expected, safeResult.Result);
             Assert.Equal(2, safeResult.FailureCount);
             Assert.Equal(3, safeResult.SuccessCount);
@@ -289,7 +289,7 @@
             var safeResult = elements.ToSafeOrderedDictionary<int>(false, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equal(expected, safeResult.Result);
             Assert.Equal(1, safeResult.FailureCount);
             Assert.Equal(2, safeResult.SuccessCount);
@@ -309,7 +309,7 @@
             var safeResult = elements.ToSafeOrderedDictionary<int>(true, ',');
 
             // Assert
-            Assert.True(safeResult.IsThereAnyFailure);
+            Assert.True(safeResult.HasFailure);
             Assert.Equal(expected, safeResult.Result);
             Assert.Equal(1, safeResult.FailureCount);
             Assert.Equal(1, safeResult.SuccessCount);

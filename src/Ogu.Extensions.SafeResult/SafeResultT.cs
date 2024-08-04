@@ -10,7 +10,7 @@ namespace Ogu.Extensions.SafeResult
         private SafeResult(TType result, bool isThereAnyFailure, bool stopOnFailure, int successCount, int failureCount)
         {
             Result = result;
-            IsThereAnyFailure = isThereAnyFailure;
+            HasFailure = isThereAnyFailure;
             StopOnFailure = stopOnFailure;
             SuccessCount = successCount;
             FailureCount = failureCount;
@@ -20,7 +20,7 @@ namespace Ogu.Extensions.SafeResult
         public TType Result { get; }
 
         [BindNever]
-        public bool IsThereAnyFailure { get; }
+        public bool HasFailure { get; }
 
         [BindNever]
         public bool StopOnFailure { get; }

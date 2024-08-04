@@ -33,7 +33,7 @@ namespace Ogu.Extensions.SafeResult
         public T Result => SafeResult.Result;
 
         [BindNever]
-        public bool IsThereAnyFailure => SafeResult.IsThereAnyFailure;
+        public bool HasFailure => SafeResult.HasFailure;
 
         [BindNever]
         public bool StopOnFailure => SafeResult.StopOnFailure;

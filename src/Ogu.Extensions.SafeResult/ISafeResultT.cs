@@ -4,7 +4,7 @@
     {
         TType Result { get; }
 
-        bool IsThereAnyFailure { get; }
+        bool HasFailure { get; }
 
         bool StopOnFailure { get; }
 
